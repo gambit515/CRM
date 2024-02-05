@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    html, body {
+        background-color: #2B579A;
+        margin: 0;
+        padding: 0
+    }
+
+    .Header {
+        width: 100%;
+        max-width: 100%;
+        background-color: #9AAAE1;
+        font-size: 1vw;
+        display: flex;
+    }
+
+    .Header label {
+        align-self: center;
+        margin-left: 0.5vw;
+    }
+
+    .Header img {
+        padding-top: 0.25vw;
+        margin-left: 0.25vw;
+        width: 1.5vw;
+        height: 1.5vw;
+    }
+
+    .TopImages img {
+        margin-left: 0.75vw;
+    }
+
+    .Profile {
+        margin-left: auto;
+        margin-right: 0.5vw;
+        display: flex;
+    }
+
+    .Profile img {
+        border-radius: 50%;
+        object-fit: cover;
+        margin-left: auto;
+    }
+
+    .Profile label {
+        align-self: center;
+    }
+
+    .HotBar {
+        width: 2vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #9AAAE1;
+        height: 55vw;
+        overflow: hidden;
+    }
+
+    .HotBar img {
+        padding-top: 0.25vw;
+        width: 1.5vw;
+    }
+
+    .TasksButton img {
+        padding-top: 0.5vw;
+        width: 1.75vw;
+    }
+
+    .HomeButton img {
+        width: 1.75vw;
+    }
+    .InfoPanel{
+        margin-top: 1.5vw;
+        margin-left: 1.5vw;
+        width: 22%;
+        display: flex;
+        flex-direction: column;
+        background-color: #E6E6E6;
+        align-items: center;
+    }
+    .Main{
+        display: flex;
+    }
+
+    .AvatarWithFIO{
+        margin-top: 1vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .AvatarWithFIO img{
+        border-radius: 50%;
+        width: 6vw;
+        height: 6vw;
+        object-fit: cover;
+        border: 0.25vw solid #2B579A;
+    }
+    .FIO{
+        font-size: 1.4vw;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        margin-left: 10px;
+        font-family:Arial,Serif;
+    }
+    .MainInfoContainer{
+        margin-top: 0.5vw;
+        display: flex;
+        flex-direction: column;
+        width: 20vw;
+        background-color: #9AAAE1;
+        color: #FFFF;
+    }
+    .MainInfoContainer h1{
+        padding-top: 0.3vw;
+        padding-bottom: 0.3vw;
+        align-self: center;
+        margin-top: 0;
+        margin-bottom: 0;
+        color: black;
+        font-size: 1.25vw;
+        font-family:Arial,Serif,serif;
+        font-weight: normal;
+    }
+    .MainInfoContainerFilling{
+        display: flex;
+        flex-direction: column;
+        background-color: #2B579A;
+        padding-left: 0.5vw;
+        padding-top: 0.5vw;
+        padding-bottom: 2vw;
+    }
+    .MainInfoContainerFilling label{
+        font-size: 0.8vw;
+        font-family:Arial,Serif,serif;
+        margin-bottom: 0.5vw;
+    }
+    .MainInfoContainerFilling h2{
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 0.85vw;
+        font-family:Arial,Serif,serif;
+    }
+    .MainPanel{
+        margin-top: 1.5vw;
+        margin-left: 1.5vw;
+        flex-grow: 1;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        background-color: #E6E6E6 ;
+    }
+    .Panel{
+        margin-top: 1.3vw;
+        margin-left: 0.25vw;
+        display: flex;
+        flex-direction: column;
+        background-color: #9AAAE1;
+        width: 70vw;
+        overflow: hidden;
+    }
+    .Panel label{
+        padding-top: 0.3vw;
+        padding-left: 2vw ;
+        align-self: start;
+        color: black;
+        font-size: 1.75vw;
+        font-family:Arial,Serif,serif;
+        font-weight: normal;
+    }
+    .PanelFilling{
+        border: #2B579A solid 0.5vw;
+        display: grid;
+        grid-template-rows:repeat(2,1fr);
+        background-color: #2B579A;
+        overflow-y: auto;
+        max-height: 400px;
+        
+    }
+
+    .PanelFilling::-webkit-scrollbar {
+        width: 12px; /* Ширина скроллбара */
+    }
+
+    .PanelFilling::-webkit-scrollbar-thumb {
+        background-color: #9AAAE1; /* Цвет бегунка (ползунка) */
+    }
+
+    .PanelFilling::-webkit-scrollbar-track {
+        background-color:#2B579A ; /* Цвет трека (фона скроллбара) */
+    }
+
+    .Record {
+        margin: 0.25vw 0.5vw 0.25vw 0;
+        background-color: #9AAAE1;
+        font-family: Arial, Serif,serif;
+        text-indent: 1.5vw;
+        display: flex;
+        flex-direction: column;
+        padding: 0.5vw;
+    }
+
+    .Record h1 {
+        margin: 0;
+        font-weight: normal;
+        font-size: 1vw;
+    }
+
+    .Record p {
+        margin: 0;
+        font-size: 0.9vw;
+    }
+
+    .Record a {
+        font-size: 1vw;
+        margin-left: auto;
+        margin-right: 1vw;
+        padding:0.5vw 1.5vw;
+        background-color: #E6E6E6;
+        text-align: center;
+        color: black;
+        text-indent: 0;
+        text-decoration: none;
+    }
+    .Record td{
+
+        text-align: center;
+        font-size: 1.1vw;
+        padding: 0.5vw 0;
+        width: 1vw;
+    }
+    .Record table{
+        border-spacing: 0.3vw;
+    }
+    /*.WhiteBlock{
+        font-weight: normal;
+        padding: 0.5vw;
+        margin: 0;
+        text-align: center;
+        background-color: #E6E6E6;
+        font-size: 1.1vw;
+    }
+    .Total{
+        font-weight: normal;
+        padding: 0.5vw;
+        margin: 0;
+        text-align: center;
+        background-color: #E6E6E6;
+        font-size: 1.1vw;
+    }
+    .BlueBox{
+        background-color: #2B579A;
+        color: #FFFF;
+    }
+    .WhiteBox{
+        background-color: #E6E6E6;
+        color: black;
+    }
+    .RedBox{
+        background-color: #D03131;
+        color: black;
+    }*/
+    .BlocksTable_Filling {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .BlocksTable_Filling a {
+        flex-shrink: 0;
+        width: 0.925vw;
+        margin: 0.125vw;
+        font-size: 1vw;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .BlocksTable_Filling a.Blue{
+        background-color: #2B579A;
+        color: #E6E6E6;
+    }
+    .BlocksTable_Heading{
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 0.125vw;
+    }
+    .BlocksTable_Heading label{
+        width: 9.25vw;
+        font-size: 1vw;
+        margin-left: 0.2vw;
+        padding:0.5vw 1.5vw;
+        background-color: #E6E6E6;
+        text-align: center;
+        color: black;
+        text-indent: 0;
+        text-decoration: none;
+    }
+    .BlocksTable_Heading label:last-child {
+        margin-left: auto;
+        margin-right: 0.3vw;
+    }
+</style>
+<body>
+<div class="Header">
+    <img class="G" src="G.png">
+    <div class="TopImages">
+        <img src="menu.png">
+        <img src="./searchIMG.png">
+    </div>
+    <label>Поиск пользователей</label>
+    <div class="Profile">
+        <img src="https://sun9-21.userapi.com/impg/1BMszh6PzNOw7GtM_7yl0bSEJPL2UNwVoTbZlw/3AR5cn0ibkw.jpg?size=607x1080&quality=95&sign=65592e9802237213c6bb3bbf61220e4a&type=album">
+        <label>Амоскин Александр</label>
+    </div>
+</div>
+<div class="Main">
+    <div class="HotBar">
+        <div class="HomeButton">
+            <img src="home.png">
+        </div>
+        <img src="calendar.png">
+        <div class="TasksButton">
+            <img src="tasks.png">
+        </div>
+        <img src="curency.png">
+    </div>
+    <div class="InfoPanel">
+        <div class="AvatarWithFIO">
+            <img src="https://sun9-21.userapi.com/impg/1BMszh6PzNOw7GtM_7yl0bSEJPL2UNwVoTbZlw/3AR5cn0ibkw.jpg?size=607x1080&quality=95&sign=65592e9802237213c6bb3bbf61220e4a&type=album">
+            <div class="FIO">
+                <label>Амоскин</label>
+                <label>Александр</label>
+                <label>Федорович</label>
+            </div>
+        </div>
+        <div class="MainInfoContainer">
+            <h1>Основная информация</h1>
+            <div class="MainInfoContainerFilling">
+                <h2>Статус:</h2>
+                <label>Работает</label>
+                <h2>Возраст:</h2>
+                <label>19 лет (28.08.2004)</label>
+                <h2>Роль:</h2>
+                <label>Мастер-маникюр</label>
+                <h2>Филиал:</h2>
+                <label>КРСК01-Взлетка</label>
+            </div>
+        </div>
+        <div class="MainInfoContainer">
+            <h1>Контакты</h1>
+            <div class="MainInfoContainerFilling">
+                <h2>Моб. телефон:</h2>
+                <label>89832970536</label>
+                <h2>Email:</h2>
+                <label>amoskin3515@gmail.com</label>
+                <h2>VK:</h2>
+                <label>https://vk.com/gambit515</label>
+            </div>
+        </div>
+    </div>
+    <div class="MainPanel">
+        <div class="Panel">
+            <label>Новости</label>
+            <div class="PanelFilling">
+                <div class="Record">
+                    <h1><b>Акция</b> "Лучшее для ваших рук и ногтей!" (01.09.2023 - 01.10.2023)</h1>
+                    <p>Специальное предложение: <b>"Бриллиантовый маникюр"</b> за полцены! Ощутите роскошь и блеск с блестящим маникюром, выполненным нашими опытными мастерами.</p>
+                    <p>Приглашаем наших клиентов на <b>сеанс ультразвукового ухода за кожей рук в подарок после любого маникюрного обслуживания!</b> Дарите вашим рукам нежность и заботу, чтобы они всегда оставались ухоженными.</p>
+                    <a href="#">Подробнее</a>
+                </div>
+                <div class="Record">
+                    <h1><b>Новость</b> (01.08.2023)</h1>
+                    <p>Мы постоянно стремимся предложить нашим клиентам уникальный и разнообразный опыт ухода за ногтями и кожей рук. Поэтому рады сообщить о расширении нашего спектра услуг. В ближайшее время, мы планируем внедрить новые методики маникюра, которые помогут удовлетворить запросы самых взыскательных клиентов.</p>
+                    <a href="#">Подробнее</a>
+                </div>
+                <div class="Record">
+                    <h1><b>Новость2</b> (01.08.2023)</h1>
+                    <p>Мы постоянно стремимся предложить нашим клиентам уникальный и разнообразный опыт ухода за ногтями и кожей рук. Поэтому рады сообщить о расширении нашего спектра услуг. В ближайшее время, мы планируем внедрить новые методики маникюра, которые помогут удовлетворить запросы самых взыскательных клиентов.</p>
+                    <a href="#">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <div class="Panel">
+            <label>Оплата</label>
+            <div class="PanelFilling">
+                <div class="Record">
+                    <div class="BlocksTable">
+                        <div class="BlocksTable_Heading">
+                            <label>
+                                Сентябрь
+                            </label>
+                            <label>
+                                Итого: 65000
+                            </label>
+                        </div>
+                        <div class="BlocksTable_Filling">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#" class="Blue">3</a>
+                            <a href="#" class="Blue">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#" class="Blue">7</a>
+                            <a href="#" class="Blue">8</a>
+                            <a href="#">9</a>
+                            <a href="#">10</a>
+                            <a href="#" class="Blue">11</a>
+                            <a href="#" class="Blue">12</a>
+                            <a href="#">13</a>
+                            <a href="#">14</a>
+                            <a href="#" class="Blue">15</a>
+                            <a href="#" class="Blue">16</a>
+                            <a href="#">17</a>
+                            <a href="#">18</a>
+                            <a href="#" class="Blue">19</a>
+                            <a href="#" class="Blue">20</a>
+                            <a href="#">21</a>
+                            <a href="#">22</a>
+                            <a href="#" class="Blue">23</a>
+                            <a href="#" class="Blue">24</a>
+                            <a href="#">25</a>
+                            <a href="#">26</a>
+                            <a href="#" class="Blue">27</a>
+                            <a href="#" class="Blue">28</a>
+                            <a href="#">29</a>
+                            <a href="#">30</a>
+                        </div>
+                    </div>
+                    <!--<table>
+                        <tr>
+                            <th colspan="2" class="WhiteBlock">Сентябрь</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th colspan="2" class="Total">Итого: 25,000</th>
+                        </tr>
+                        <tr>
+                            <td class="BlueBox">09.01</td>
+                            <td class="BlueBox">09.02 </td>
+                            <td class="WhiteBox">09.03</td>
+                            <td class="WhiteBox">09.04</td>
+                            <td class="BlueBox">09.05</td>
+                            <td class="BlueBox">09.06</td>
+                            <td class="WhiteBox">09.07</td>
+                            <td class="WhiteBox">09.08</td>
+                            <td class="BlueBox">09.09</td>
+                            <td class="BlueBox">09.10</td>
+                            <td class="WhiteBox">09.11</td>
+                            <td class="WhiteBox">09.12</td>
+                        </tr>
+                        <tr>
+                            <td class="BlueBox">09.13</td>
+                            <td class="BlueBox">09.14</td>
+                            <td class="WhiteBox">09.15</td>
+                            <td class="WhiteBox">09.16</td>
+                            <td class="BlueBox">09.17</td>
+                            <td class="BlueBox">09.18</td>
+                            <td class="WhiteBox">09.19</td>
+                            <td class="WhiteBox">09.20</td>
+                            <td class="BlueBox">09.21</td>
+                            <td class="BlueBox">09.22</td>
+                            <td class="WhiteBox">09.23</td>
+                            <td class="WhiteBox">09.24</td>
+                        </tr>
+                        <tr>
+                            <td class="BlueBox">09.25</td>
+                            <td class="BlueBox">09.26</td>
+                            <td class="WhiteBox">09.27</td>
+                            <td class="WhiteBox">09.28</td>
+                            <td class="BlueBox">09.29</td>
+                            <td class="BlueBox">09.30</td>
+                        </tr>
+                    </table>-->
+                </div>
+                <div class="Record">
+                    <div class="BlocksTable">
+                        <div class="BlocksTable_Heading">
+                            <label>
+                                Октябрь
+                            </label>
+                            <label>
+                                Итого: 75000
+                            </label>
+                        </div>
+                        <div class="BlocksTable_Filling">
+                            <a href="#" class="Blue">1</a>
+                            <a href="#" class="Blue">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#" class="Blue">5</a>
+                            <a href="#" class="Blue">6</a>
+                            <a href="#">7</a>
+                            <a href="#">8</a>
+                            <a href="#" class="Blue">9</a>
+                            <a href="#" class="Blue">10</a>
+                            <a href="#">11</a>
+                            <a href="#">12</a>
+                            <a href="#" class="Blue">13</a>
+                            <a href="#" class="Blue">14</a>
+                            <a href="#">15</a>
+                            <a href="#">16</a>
+                            <a href="#" class="Blue">17</a>
+                            <a href="#" class="Blue">18</a>
+                            <a href="#">19</a>
+                            <a href="#">20</a>
+                            <a href="#" class="Blue">21</a>
+                            <a href="#" class="Blue">22</a>
+                            <a href="#">23</a>
+                            <a href="#">24</a>
+                            <a href="#" class="Blue">25</a>
+                            <a href="#" class="Blue">26</a>
+                            <a href="#">27</a>
+                            <a href="#">28</a>
+                            <a href="#" class="Blue">29</a>
+                            <a href="#" class="Blue">30</a>
+                            <a href="#">31</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="Record">
+                    <div class="BlocksTable">
+                        <div class="BlocksTable_Heading">
+                            <label>
+                                Ноябрь
+                            </label>
+                            <label>
+                                Итого: 85000
+                            </label>
+                        </div>
+                        <div class="BlocksTable_Filling">
+                            <a href="#">1</a>
+                            <a href="#" class="Blue">2</a>
+                            <a href="#" class="Blue">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#" class="Blue">6</a>
+                            <a href="#" class="Blue">7</a>
+                            <a href="#">8</a>
+                            <a href="#">9</a>
+                            <a href="#" class="Blue">10</a>
+                            <a href="#" class="Blue">11</a>
+                            <a href="#">12</a>
+                            <a href="#">13</a>
+                            <a href="#" class="Blue">14</a>
+                            <a href="#" class="Blue">15</a>
+                            <a href="#">16</a>
+                            <a href="#">17</a>
+                            <a href="#" class="Blue">18</a>
+                            <a href="#" class="Blue">19</a>
+                            <a href="#">20</a>
+                            <a href="#">21</a>
+                            <a href="#" class="Blue">22</a>
+                            <a href="#" class="Blue">23</a>
+                            <a href="#">24</a>
+                            <a href="#">25</a>
+                            <a href="#" class="Blue">26</a>
+                            <a href="#" class="Blue">27</a>
+                            <a href="#">28</a>
+                            <a href="#">29</a>
+                            <a href="#" class="Blue">30</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+</html>
