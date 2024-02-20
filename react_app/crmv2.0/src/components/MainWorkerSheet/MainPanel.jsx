@@ -1,9 +1,74 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../styles/MainWorkerSheet/MainPanel.css'
 import NewsPanel from "./NewsPanel";
 import GreedPanel from "./GreedPanel";
 
 const MainPanel = () => {
+
+    let [scheduleCountData, setScheduleCountData] = useState(
+
+    );
+
+    const groupDataByMonth = (data) => {
+        //Групировка данных по месяцам
+        const groupedData = {};
+
+        data.forEach((item) => {
+            //Разбитие даты на день месяц год
+            const dateParts = item.Date.split('-');
+            const montNumber = dateParts[1] // формат: 'mm-yyyy'
+            if (!groupedData[montNumber]) {
+                groupedData[montNumber] = [];
+            }
+
+            const newItem = {
+                id: item.Id,
+                link: item.Link,
+                count: item.Count,
+                dateOfTheDay: dateParts[0]
+            };
+
+            groupedData[montNumber].push(newItem);
+        });
+
+        // Возвращаем группированные данные
+        return groupedData;
+    };
+
+
+    const fetchData = async () => {
+        try {
+            //Получение данных с API
+            const response = await fetch('http://127.0.0.1:8000/api/schedule/count', {
+                method: 'GET',
+                headers: {
+                    'Authorization': "token " + localStorage.getItem("authToken")
+                }
+            });
+            const data = await response.json();
+            console.log(data)
+            setScheduleCountData(data);
+            console.log(scheduleCountData)
+        } catch (error) {
+            console.error('Error fetching schedule count:', error);
+        }
+    };
+    //Выполняется единожды при запуске компонента
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
+    //Выполняется каждые 5 секунд
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            //console.log(scheduleCountData)
+            fetchData();
+        }, 5000);
+
+        return () => clearInterval(intervalId);
+    }, [scheduleCountData]);
+
     const [news, setPosts] = useState([
         {
             id: 1,
@@ -35,220 +100,234 @@ const MainPanel = () => {
         }
     ])
     const [septemberPay, setSeptemberPay] = useState([
-        {id: 1, link: "#", color: "None", date: "1"},
-        {id: 2, link: "#", color: "None", date: "2"},
-        {id: 3, link: "#", color: "Blue", date: "3"},
-        {id: 4, link: "#", color: "Blue", date: "4"},
-        {id: 5, link: "#", color: "None", date: "5"},
-        {id: 6, link: "#", color: "None", date: "6"},
-        {id: 7, link: "#", color: "Blue", date: "7"},
-        {id: 8, link: "#", color: "Blue", date: "8"},
-        {id: 9, link: "#", color: "None", date: "9"},
-        {id: 10, link: "#", color: "None", date: "10"},
-        {id: 11, link: "#", color: "Blue", date: "11"},
-        {id: 12, link: "#", color: "Blue", date: "12"},
-        {id: 13, link: "#", color: "None", date: "13"},
-        {id: 14, link: "#", color: "None", date: "14"},
-        {id: 15, link: "#", color: "Blue", date: "15"},
-        {id: 16, link: "#", color: "Blue", date: "16"},
-        {id: 17, link: "#", color: "None", date: "17"},
-        {id: 18, link: "#", color: "None", date: "18"},
-        {id: 19, link: "#", color: "Blue", date: "19"},
-        {id: 20, link: "#", color: "Blue", date: "20"},
-        {id: 21, link: "#", color: "None", date: "21"},
-        {id: 22, link: "#", color: "None", date: "22"},
-        {id: 23, link: "#", color: "Blue", date: "23"},
-        {id: 24, link: "#", color: "Blue", date: "24"},
-        {id: 25, link: "#", color: "None", date: "25"},
-        {id: 26, link: "#", color: "None", date: "26"},
-        {id: 27, link: "#", color: "Blue", date: "27"},
-        {id: 28, link: "#", color: "Blue", date: "28"},
-        {id: 29, link: "#", color: "None", date: "29"},
-        {id: 30, link: "#", color: "None", date: "30"},
+        { id: 1, link: "#", count: 0, dateOfTheDay: "1" },
+        { id: 2, link: "#", count: 0, dateOfTheDay: "2" },
+        { id: 3, link: "#", count: -1, dateOfTheDay: "3" },
+        { id: 4, link: "#", count: -1, dateOfTheDay: "4" },
+        { id: 5, link: "#", count: 0, dateOfTheDay: "5" },
+        { id: 6, link: "#", count: 0, dateOfTheDay: "6" },
+        { id: 7, link: "#", count: -1, dateOfTheDay: "7" },
+        { id: 8, link: "#", count: -1, dateOfTheDay: "8" },
+        { id: 9, link: "#", count: 0, dateOfTheDay: "9" },
+        { id: 10, link: "#", count: 0, dateOfTheDay: "10" },
+        { id: 11, link: "#", count: -1, dateOfTheDay: "11" },
+        { id: 12, link: "#", count: -1, dateOfTheDay: "12" },
+        { id: 13, link: "#", count: 0, dateOfTheDay: "13" },
+        { id: 14, link: "#", count: 0, dateOfTheDay: "14" },
+        { id: 15, link: "#", count: -1, dateOfTheDay: "15" },
+        { id: 16, link: "#", count: -1, dateOfTheDay: "16" },
+        { id: 17, link: "#", count: 0, dateOfTheDay: "17" },
+        { id: 18, link: "#", count: 0, dateOfTheDay: "18" },
+        { id: 19, link: "#", count: -1, dateOfTheDay: "19" },
+        { id: 20, link: "#", count: -1, dateOfTheDay: "20" },
+        { id: 21, link: "#", count: 0, dateOfTheDay: "21" },
+        { id: 22, link: "#", count: 0, dateOfTheDay: "22" },
+        { id: 23, link: "#", count: -1, dateOfTheDay: "23" },
+        { id: 24, link: "#", count: -1, dateOfTheDay: "24" },
+        { id: 25, link: "#", count: 0, dateOfTheDay: "25" },
+        { id: 26, link: "#", count: 0, dateOfTheDay: "26" },
+        { id: 27, link: "#", count: -1, dateOfTheDay: "27" },
+        { id: 28, link: "#", count: -1, dateOfTheDay: "28" },
+        { id: 29, link: "#", count: 0, dateOfTheDay: "29" },
+        { id: 30, link: "#", count: 0, dateOfTheDay: "30" },
+    ]);
 
-    ])
     const [octoberPay, setOctoberPay] = useState([
-        {id: 1, link: "#", color: "Blue", date: "1"},
-        {id: 2, link: "#", color: "Blue", date: "2"},
-        {id: 3, link: "#", color: "None", date: "3"},
-        {id: 4, link: "#", color: "None", date: "4"},
-        {id: 5, link: "#", color: "Blue", date: "5"},
-        {id: 6, link: "#", color: "Blue", date: "6"},
-        {id: 7, link: "#", color: "None", date: "7"},
-        {id: 8, link: "#", color: "None", date: "8"},
-        {id: 9, link: "#", color: "Blue", date: "9"},
-        {id: 10, link: "#", color: "Blue", date: "10"},
-        {id: 11, link: "#", color: "None", date: "11"},
-        {id: 12, link: "#", color: "None", date: "12"},
-        {id: 13, link: "#", color: "Blue", date: "13"},
-        {id: 14, link: "#", color: "Blue", date: "14"},
-        {id: 15, link: "#", color: "None", date: "15"},
-        {id: 16, link: "#", color: "None", date: "16"},
-        {id: 17, link: "#", color: "Blue", date: "17"},
-        {id: 18, link: "#", color: "Blue", date: "18"},
-        {id: 19, link: "#", color: "None", date: "19"},
-        {id: 20, link: "#", color: "None", date: "20"},
-        {id: 21, link: "#", color: "Blue", date: "21"},
-        {id: 22, link: "#", color: "Blue", date: "22"},
-        {id: 23, link: "#", color: "None", date: "23"},
-        {id: 24, link: "#", color: "None", date: "24"},
-        {id: 25, link: "#", color: "Blue", date: "25"},
-        {id: 26, link: "#", color: "Blue", date: "26"},
-        {id: 27, link: "#", color: "None", date: "27"},
-        {id: 28, link: "#", color: "None", date: "28"},
-        {id: 29, link: "#", color: "Blue", date: "29"},
-        {id: 30, link: "#", color: "Blue", date: "30"},
-        {id: 31, link: "#", color: "None", date: "31"},
-    ])
-    const [novemberPay, setNovemberPay] = useState([
-        {id: 1, link: "#", color: "None", date: "1"},
-        {id: 2, link: "#", color: "Blue", date: "2"},
-        {id: 3, link: "#", color: "Blue", date: "3"},
-        {id: 4, link: "#", color: "None", date: "4"},
-        {id: 5, link: "#", color: "None", date: "5"},
-        {id: 6, link: "#", color: "Blue", date: "6"},
-        {id: 7, link: "#", color: "Blue", date: "7"},
-        {id: 8, link: "#", color: "None", date: "8"},
-        {id: 9, link: "#", color: "None", date: "9"},
-        {id: 10, link: "#", color: "Blue", date: "10"},
-        {id: 11, link: "#", color: "Blue", date: "11"},
-        {id: 12, link: "#", color: "None", date: "12"},
-        {id: 13, link: "#", color: "None", date: "13"},
-        {id: 14, link: "#", color: "Blue", date: "14"},
-        {id: 15, link: "#", color: "Blue", date: "15"},
-        {id: 16, link: "#", color: "None", date: "16"},
-        {id: 17, link: "#", color: "None", date: "17"},
-        {id: 18, link: "#", color: "Blue", date: "18"},
-        {id: 19, link: "#", color: "Blue", date: "19"},
-        {id: 20, link: "#", color: "None", date: "20"},
-        {id: 21, link: "#", color: "None", date: "21"},
-        {id: 22, link: "#", color: "Blue", date: "22"},
-        {id: 23, link: "#", color: "Blue", date: "23"},
-        {id: 24, link: "#", color: "None", date: "24"},
-        {id: 25, link: "#", color: "None", date: "25"},
-        {id: 26, link: "#", color: "Blue", date: "26"},
-        {id: 27, link: "#", color: "Blue", date: "27"},
-        {id: 28, link: "#", color: "None", date: "28"},
-        {id: 29, link: "#", color: "None", date: "29"},
-        {id: 30, link: "#", color: "Blue", date: "30"},
-        {id: 31, link: "#", color: "Blue", date: "31"},
-    ])
-    const [septemberSch, setSeptemberSch] = useState([
-        {id: 1, link: "#", color: "Gray", date: "1"},
-        {id: 2, link: "#", color: "Gray", date: "2"},
-        {id: 3, link: "#", color: "Blue", date: "3"},
-        {id: 4, link: "#", color: "Blue", date: "4"},
-        {id: 5, link: "#", color: "Red", date: "5"},
-        {id: 6, link: "#", color: "Red", date: "6"},
-        {id: 7, link: "#", color: "Blue", date: "7"},
-        {id: 8, link: "#", color: "Blue", date: "8"},
-        {id: 9, link: "#", color: "Red", date: "9"},
-        {id: 10, link: "#", color: "Red", date: "10"},
-        {id: 11, link: "#", color: "Blue", date: "11"},
-        {id: 12, link: "#", color: "Blue", date: "12"},
-        {id: 13, link: "#", color: "Red", date: "13"},
-        {id: 14, link: "#", color: "Red", date: "14"},
-        {id: 15, link: "#", color: "Blue", date: "15"},
-        {id: 16, link: "#", color: "Blue", date: "16"},
-        {id: 17, link: "#", color: "Orange", date: "17"},
-        {id: 18, link: "#", color: "Red", date: "18"},
-        {id: 19, link: "#", color: "Blue", date: "19"},
-        {id: 20, link: "#", color: "Blue", date: "20"},
-        {id: 21, link: "#", color: "Red", date: "21"},
-        {id: 22, link: "#", color: "Orange", date: "22"},
-        {id: 23, link: "#", color: "Blue", date: "23"},
-        {id: 24, link: "#", color: "Blue", date: "24"},
-        {id: 25, link: "#", color: "Yellow", date: "25"},
-        {id: 26, link: "#", color: "Orange", date: "26"},
-        {id: 27, link: "#", color: "Blue", date: "27"},
-        {id: 28, link: "#", color: "Blue", date: "28"},
-        {id: 29, link: "#", color: "Yellow", date: "29"},
-        {id: 30, link: "#", color: "Orange", date: "30"},
+        { id: 1, link: "#", count: -1, dateOfTheDay: "1" },
+        { id: 2, link: "#", count: -1, dateOfTheDay: "2" },
+        { id: 3, link: "#", count: 0, dateOfTheDay: "3" },
+        { id: 4, link: "#", count: 0, dateOfTheDay: "4" },
+        { id: 5, link: "#", count: -1, dateOfTheDay: "5" },
+        { id: 6, link: "#", count: -1, dateOfTheDay: "6" },
+        { id: 7, link: "#", count: 0, dateOfTheDay: "7" },
+        { id: 8, link: "#", count: 0, dateOfTheDay: "8" },
+        { id: 9, link: "#", count: -1, dateOfTheDay: "9" },
+        { id: 10, link: "#", count: -1, dateOfTheDay: "10" },
+        { id: 11, link: "#", count: 0, dateOfTheDay: "11" },
+        { id: 12, link: "#", count: 0, dateOfTheDay: "12" },
+        { id: 13, link: "#", count: -1, dateOfTheDay: "13" },
+        { id: 14, link: "#", count: -1, dateOfTheDay: "14" },
+        { id: 15, link: "#", count: 0, dateOfTheDay: "15" },
+        { id: 16, link: "#", count: 0, dateOfTheDay: "16" },
+        { id: 17, link: "#", count: -1, dateOfTheDay: "17" },
+        { id: 18, link: "#", count: -1, dateOfTheDay: "18" },
+        { id: 19, link: "#", count: 0, dateOfTheDay: "19" },
+        { id: 20, link: "#", count: 0, dateOfTheDay: "20" },
+        { id: 21, link: "#", count: -1, dateOfTheDay: "21" },
+        { id: 22, link: "#", count: -1, dateOfTheDay: "22" },
+        { id: 23, link: "#", count: 0, dateOfTheDay: "23" },
+        { id: 24, link: "#", count: 0, dateOfTheDay: "24" },
+        { id: 25, link: "#", count: -1, dateOfTheDay: "25" },
+        { id: 26, link: "#", count: -1, dateOfTheDay: "26" },
+        { id: 27, link: "#", count: 0, dateOfTheDay: "27" },
+        { id: 28, link: "#", count: 0, dateOfTheDay: "28" },
+        { id: 29, link: "#", count: -1, dateOfTheDay: "29" },
+        { id: 30, link: "#", count: -1, dateOfTheDay: "30" },
+        { id: 31, link: "#", count: 0, dateOfTheDay: "31" },
+    ]);
 
-    ])
+    const [novemberPay, setNovemberPay] = useState([
+        { id: 1, link: "#", count: 0, dateOfTheDay: "1" },
+        { id: 2, link: "#", count: -1, dateOfTheDay: "2" },
+        { id: 3, link: "#", count: -1, dateOfTheDay: "3" },
+        { id: 4, link: "#", count: 0, dateOfTheDay: "4" },
+        { id: 5, link: "#", count: 0, dateOfTheDay: "5" },
+        { id: 6, link: "#", count: -1, dateOfTheDay: "6" },
+        { id: 7, link: "#", count: -1, dateOfTheDay: "7" },
+        { id: 8, link: "#", count: 0, dateOfTheDay: "8" },
+        { id: 9, link: "#", count: 0, dateOfTheDay: "9" },
+        { id: 10, link: "#", count: -1, dateOfTheDay: "10" },
+        { id: 11, link: "#", count: -1, dateOfTheDay: "11" },
+        { id: 12, link: "#", count: 0, dateOfTheDay: "12" },
+        { id: 13, link: "#", count: 0, dateOfTheDay: "13" },
+        { id: 14, link: "#", count: -1, dateOfTheDay: "14" },
+        { id: 15, link: "#", count: -1, dateOfTheDay: "15" },
+        { id: 16, link: "#", count: 0, dateOfTheDay: "16" },
+        { id: 17, link: "#", count: 0, dateOfTheDay: "17" },
+        { id: 18, link: "#", count: -1, dateOfTheDay: "18" },
+        { id: 19, link: "#", count: -1, dateOfTheDay: "19" },
+        { id: 20, link: "#", count: 0, dateOfTheDay: "20" },
+        { id: 21, link: "#", count: 0, dateOfTheDay: "21" },
+        { id: 22, link: "#", count: -1, dateOfTheDay: "22" },
+        { id: 23, link: "#", count: -1, dateOfTheDay: "23" },
+        { id: 24, link: "#", count: 0, dateOfTheDay: "24" },
+        { id: 25, link: "#", count: 0, dateOfTheDay: "25" },
+        { id: 26, link: "#", count: -1, dateOfTheDay: "26" },
+        { id: 27, link: "#", count: -1, dateOfTheDay: "27" },
+        { id: 28, link: "#", count: 0, dateOfTheDay: "28" },
+        { id: 29, link: "#", count: 0, dateOfTheDay: "29" },
+        { id: 30, link: "#", count: -1, dateOfTheDay: "30" },
+        { id: 31, link: "#", count: -1, dateOfTheDay: "31" },
+    ]);
+
+    const [septemberSch, setSeptemberSch] = useState([
+        { id: 1, link: "#", count: 0, dateOfTheDay: "1" },
+        { id: 2, link: "#", count: 0, dateOfTheDay: "2" },
+        { id: 3, link: "#", count: -1, dateOfTheDay: "3" },
+        { id: 4, link: "#", count: -1, dateOfTheDay: "4" },
+        { id: 5, link: "#", count: 7, dateOfTheDay: "5" },
+        { id: 6, link: "#", count: 7, dateOfTheDay: "6" },
+        { id: 7, link: "#", count: -1, dateOfTheDay: "7" },
+        { id: 8, link: "#", count: -1, dateOfTheDay: "8" },
+        { id: 9, link: "#", count: 7, dateOfTheDay: "9" },
+        { id: 10, link: "#", count: 7, dateOfTheDay: "10" },
+        { id: 11, link: "#", count: -1, dateOfTheDay: "11" },
+        { id: 12, link: "#", count: -1, dateOfTheDay: "12" },
+        { id: 13, link: "#", count: 7, dateOfTheDay: "13" },
+        { id: 14, link: "#", count: 7, dateOfTheDay: "14" },
+        { id: 15, link: "#", count: -1, dateOfTheDay: "15" },
+        { id: 16, link: "#", count: -1, dateOfTheDay: "16" },
+        { id: 17, link: "#", count: 5, dateOfTheDay: "17" },
+        { id: 18, link: "#", count: 7, dateOfTheDay: "18" },
+        { id: 19, link: "#", count: -1, dateOfTheDay: "19" },
+        { id: 20, link: "#", count: -1, dateOfTheDay: "20" },
+        { id: 21, link: "#", count: 7, dateOfTheDay: "21" },
+        { id: 22, link: "#", count: 5, dateOfTheDay: "22" },
+        { id: 23, link: "#", count: -1, dateOfTheDay: "23" },
+        { id: 24, link: "#", count: -1, dateOfTheDay: "24" },
+        { id: 25, link: "#", count: 3, dateOfTheDay: "25" },
+        { id: 26, link: "#", count: 5, dateOfTheDay: "26" },
+        { id: 27, link: "#", count: -1, dateOfTheDay: "27" },
+        { id: 28, link: "#", count: -1, dateOfTheDay: "28" },
+        { id: 29, link: "#", count: 3, dateOfTheDay: "29" },
+        { id: 30, link: "#", count: 5, dateOfTheDay: "30" },
+    ]);
+
     const [octoberSch, setOctoberSch] = useState([
-        {id: 1, link: "#", color: "Blue", date: "1"},
-        {id: 2, link: "#", color: "Blue", date: "2"},
-        {id: 3, link: "#", color: "Orange", date: "3"},
-        {id: 4, link: "#", color: "Orange", date: "4"},
-        {id: 5, link: "#", color: "Blue", date: "5"},
-        {id: 6, link: "#", color: "Blue", date: "6"},
-        {id: 7, link: "#", color: "Orange", date: "7"},
-        {id: 8, link: "#", color: "Yellow", date: "8"},
-        {id: 9, link: "#", color: "Blue", date: "9"},
-        {id: 10, link: "#", color: "Blue", date: "10"},
-        {id: 11, link: "#", color: "Yellow", date: "11"},
-        {id: 12, link: "#", color: "Orange", date: "12"},
-        {id: 13, link: "#", color: "Blue", date: "13"},
-        {id: 14, link: "#", color: "Blue", date: "14"},
-        {id: 15, link: "#", color: "Yellow", date: "15"},
-        {id: 16, link: "#", color: "Orange", date: "16"},
-        {id: 17, link: "#", color: "Blue", date: "17"},
-        {id: 18, link: "#", color: "Blue", date: "18"},
-        {id: 19, link: "#", color: "Yellow", date: "19"},
-        {id: 20, link: "#", color: "Yellow", date: "20"},
-        {id: 21, link: "#", color: "Blue", date: "21"},
-        {id: 22, link: "#", color: "Blue", date: "22"},
-        {id: 23, link: "#", color: "Green", date: "23"},
-        {id: 24, link: "#", color: "Yellow", date: "24"},
-        {id: 25, link: "#", color: "Blue", date: "25"},
-        {id: 26, link: "#", color: "Blue", date: "26"},
-        {id: 27, link: "#", color: "Yellow", date: "27"},
-        {id: 28, link: "#", color: "Green", date: "28"},
-        {id: 29, link: "#", color: "Blue", date: "29"},
-        {id: 30, link: "#", color: "Blue", date: "30"},
-        {id: 31, link: "#", color: "Yellow", date: "31"},
-    ])
+        { id: 1, link: "#", count: -1, dateOfTheDay: "1" },
+        { id: 2, link: "#", count: -1, dateOfTheDay: "2" },
+        { id: 3, link: "#", count: 5, dateOfTheDay: "3" },
+        { id: 4, link: "#", count: 5, dateOfTheDay: "4" },
+        { id: 5, link: "#", count: -1, dateOfTheDay: "5" },
+        { id: 6, link: "#", count: -1, dateOfTheDay: "6" },
+        { id: 7, link: "#", count: 5, dateOfTheDay: "7" },
+        { id: 8, link: "#", count: 3, dateOfTheDay: "8" },
+        { id: 9, link: "#", count: -1, dateOfTheDay: "9" },
+        { id: 10, link: "#", count: -1, dateOfTheDay: "10" },
+        { id: 11, link: "#", count: 3, dateOfTheDay: "11" },
+        { id: 12, link: "#", count: 5, dateOfTheDay: "12" },
+        { id: 13, link: "#", count: -1, dateOfTheDay: "13" },
+        { id: 14, link: "#", count: -1, dateOfTheDay: "14" },
+        { id: 15, link: "#", count: 3, dateOfTheDay: "15" },
+        { id: 16, link: "#", count: 5, dateOfTheDay: "16" },
+        { id: 17, link: "#", count: -1, dateOfTheDay: "17" },
+        { id: 18, link: "#", count: -1, dateOfTheDay: "18" },
+        { id: 19, link: "#", count: 3, dateOfTheDay: "19" },
+        { id: 20, link: "#", count: 3, dateOfTheDay: "20" },
+        { id: 21, link: "#", count: -1, dateOfTheDay: "21" },
+        { id: 22, link: "#", count: -1, dateOfTheDay: "22" },
+        { id: 23, link: "#", count: 1, dateOfTheDay: "23" },
+        { id: 24, link: "#", count: 3, dateOfTheDay: "24" },
+        { id: 25, link: "#", count: -1, dateOfTheDay: "25" },
+        { id: 26, link: "#", count: -1, dateOfTheDay: "26" },
+        { id: 27, link: "#", count: 3, dateOfTheDay: "27" },
+        { id: 28, link: "#", count: 1, dateOfTheDay: "28" },
+        { id: 29, link: "#", count: -1, dateOfTheDay: "29" },
+        { id: 30, link: "#", count: -1, dateOfTheDay: "30" },
+        { id: 31, link: "#", count: 3, dateOfTheDay: "31" },
+    ]);
+
     const [novemberSch, setNovemberSch] = useState([
-        {id: 1, link: "#", color: "Green", date: "1"},
-        {id: 2, link: "#", color: "Blue", date: "2"},
-        {id: 3, link: "#", color: "Blue", date: "3"},
-        {id: 4, link: "#", color: "Yellow", date: "4"},
-        {id: 5, link: "#", color: "Green", date: "5"},
-        {id: 6, link: "#", color: "Blue", date: "6"},
-        {id: 7, link: "#", color: "Blue", date: "7"},
-        {id: 8, link: "#", color: "Yellow", date: "8"},
-        {id: 9, link: "#", color: "Green", date: "9"},
-        {id: 10, link: "#", color: "Blue", date: "10"},
-        {id: 11, link: "#", color: "Blue", date: "11"},
-        {id: 12, link: "#", color: "Yellow", date: "12"},
-        {id: 13, link: "#", color: "Green", date: "13"},
-        {id: 14, link: "#", color: "Blue", date: "14"},
-        {id: 15, link: "#", color: "Blue", date: "15"},
-        {id: 16, link: "#", color: "Yellow", date: "16"},
-        {id: 17, link: "#", color: "Green", date: "17"},
-        {id: 18, link: "#", color: "Blue", date: "18"},
-        {id: 19, link: "#", color: "Blue", date: "19"},
-        {id: 20, link: "#", color: "Yellow", date: "20"},
-        {id: 21, link: "#", color: "Green", date: "21"},
-        {id: 22, link: "#", color: "Blue", date: "22"},
-        {id: 23, link: "#", color: "Blue", date: "23"},
-        {id: 24, link: "#", color: "Green", date: "24"},
-        {id: 25, link: "#", color: "Green", date: "25"},
-        {id: 26, link: "#", color: "Blue", date: "26"},
-        {id: 27, link: "#", color: "Blue", date: "27"},
-        {id: 28, link: "#", color: "Green", date: "28"},
-        {id: 29, link: "#", color: "Green", date: "29"},
-        {id: 30, link: "#", color: "Blue", date: "30"},
-        {id: 31, link: "#", color: "Blue", date: "31"},
-    ])
+        { id: 1, link: "#", count: 1, dateOfTheDay: "1" },
+        { id: 2, link: "#", count: -1, dateOfTheDay: "2" },
+        { id: 3, link: "#", count: -1, dateOfTheDay: "3" },
+        { id: 4, link: "#", count: 3, dateOfTheDay: "4" },
+        { id: 5, link: "#", count: 1, dateOfTheDay: "5" },
+        { id: 6, link: "#", count: -1, dateOfTheDay: "6" },
+        { id: 7, link: "#", count: -1, dateOfTheDay: "7" },
+        { id: 8, link: "#", count: 3, dateOfTheDay: "8" },
+        { id: 9, link: "#", count: 1, dateOfTheDay: "9" },
+        { id: 10, link: "#", count: -1, dateOfTheDay: "10" },
+        { id: 11, link: "#", count: -1, dateOfTheDay: "11" },
+        { id: 12, link: "#", count: 3, dateOfTheDay: "12" },
+        { id: 13, link: "#", count: 1, dateOfTheDay: "13" },
+        { id: 14, link: "#", count: -1, dateOfTheDay: "14" },
+        { id: 15, link: "#", count: -1, dateOfTheDay: "15" },
+        { id: 16, link: "#", count: 3, dateOfTheDay: "16" },
+        { id: 17, link: "#", count: 1, dateOfTheDay: "17" },
+        { id: 18, link: "#", count: -1, dateOfTheDay: "18" },
+        { id: 19, link: "#", count: -1, dateOfTheDay: "19" },
+        { id: 20, link: "#", count: 3, dateOfTheDay: "20" },
+        { id: 21, link: "#", count: 1, dateOfTheDay: "21" },
+        { id: 22, link: "#", count: -1, dateOfTheDay: "22" },
+        { id: 23, link: "#", count: -1, dateOfTheDay: "23" },
+        { id: 24, link: "#", count: 1, dateOfTheDay: "24" },
+        { id: 25, link: "#", count: 1, dateOfTheDay: "25" },
+        { id: 26, link: "#", count: -1, dateOfTheDay: "26" },
+        { id: 27, link: "#", count: -1, dateOfTheDay: "27" },
+        { id: 28, link: "#", count: 1, dateOfTheDay: "28" },
+        { id: 29, link: "#", count: 1, dateOfTheDay: "29" },
+        { id: 30, link: "#", count: -1, dateOfTheDay: "30" },
+        { id: 31, link: "#", count: -1, dateOfTheDay: "31" },
+    ]);
+
     const [payment, setPayment] = useState([
-        {id: 1, name: "Сентябрь", total: "65000", date: septemberPay},
-        {id: 2, name: "Октярь", total: "75000", date: octoberPay},
-        {id: 3, name: "Ноябрь", total: "85000", date: novemberPay},
+        {key: 1, month_year: "9-2023", total: "65000", days: septemberPay},
+        {key: 2, month_year: "10-2023", total: "75000", days: octoberPay},
+        {key: 3, month_year: "11-2023", total: "85000", days: novemberPay},
     ])
     const [schedule, setSchedule] = useState([
-        {id: 1, name: "Сентябрь", total: "", date: septemberSch},
-        {id: 2, name: "Октярь", total: "", date: octoberSch},
-        {id: 3, name: "Ноябрь", total: "", date: novemberSch},
+        {key: 1, month_year: "9-2023", total: "", days: septemberSch},
+        {key: 2, month_year: "10-2023", total: "", days: octoberSch},
+        {key: 3, month_year: "11-2023", total: "", days: novemberSch},
     ])
-    return (
-        <div className="MainPanel">
-            <NewsPanel posts={news} tittle={"Новости"}/>
-            <GreedPanel posts={payment} tittle={"Оплата"}/>
-            <GreedPanel posts={schedule} tittle={"Расписание"}/>
-        </div>
-    );
-};
+    if(scheduleCountData !=null){
+        return (
+            <div className="MainPanel">
+                <NewsPanel posts={news} tittle={"Новости"}/>
+                <GreedPanel posts={payment} tittle={"Оплата"}/>
+                <GreedPanel posts={scheduleCountData} tittle={"Расписание"}/>
+            </div>
+        );
+    }else{
+        return (
+            <div className="MainPanel">
+                <NewsPanel posts={news} tittle={"Новости"}/>
+                <GreedPanel posts={payment} tittle={"Оплата"}/>
+            </div>
+        );
+    }
 
+};
+//<GreedPanel posts={scheduleCountData} tittle={"Расписание"}/>
 export default MainPanel;

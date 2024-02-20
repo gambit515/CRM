@@ -2,6 +2,7 @@ import React from 'react';
 import '../../styles/MainWorkerSheet/InfoPanel.css'
 
 const InfoPanel = () => {
+
     return (
         <div className="InfoPanel">
             <div className="AvatarWithFIO">
@@ -10,7 +11,7 @@ const InfoPanel = () => {
                 <div className="FIO">
                     <label>Амоскин</label>
                     <label>Александр</label>
-                    <label>Федорович</label>
+                    <label>Федорович{/*localStorage.getItem("authToken")*/}</label>
                 </div>
             </div>
             <div className="MainInfoContainer">
