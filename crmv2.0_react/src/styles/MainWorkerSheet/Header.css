@@ -1,0 +1,60 @@
+.Header {
+    width: 100%;
+    max-width: 100%;
+    background-color: #9AAAE1;
+    font-size: 1vw;
+    display: flex;
+}
+
+.LinkToAdminPanel {
+    display: inline-block;
+    padding: 0.25vw 0.5vw;
+    margin: 0 auto;
+    background-color: #ff6a00; /* Цвет фона */
+    color: white; /* Цвет текста */
+    text-align: center;
+    text-decoration: none; /* Убрать подчеркивание */
+    border-radius: 5px; /* Скругленные углы */
+    border: none; /* Убрать границу */
+    cursor: pointer; /* Указатель мыши */
+    font-size: 16px; /* Размер шрифта */
+    line-height: 1.5; /* Высота строки */
+    vertical-align: middle; /* Вертикальное выравнивание */
+    transition: background-color 0.3s ease; /* Плавный переход цвета фона */
+}
+
+.LinkToAdminPanel:hover {
+    background-color: #ad4a02; /* Цвет фона при наведении */
+}
+
+.Header label {
+    align-self: center;
+    margin-left: 0.5vw;
+}
+
+.Header img {
+    padding-top: 0.25vw;
+    margin-left: 0.25vw;
+    width: 1.5vw;
+    height: 1.5vw;
+}
+
+.TopImages img {
+    margin-left: 0.75vw;
+}
+
+.Profile {
+    margin-left: auto;
+    margin-right: 0.5vw;
+    display: flex;
+}
+
+.Profile img {
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: auto;
+}
+
+.Profile label {
+    align-self: center;
+}
